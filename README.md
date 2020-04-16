@@ -1,2 +1,3 @@
 # Audio-Thresholding-Algorithm
-Thresholding of audio based implemented in Python
+Audio thresholding algorithm implemented in Python
+
