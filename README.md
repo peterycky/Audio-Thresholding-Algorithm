@@ -40,5 +40,7 @@ Ear loss is given in a logarythmic scale, where 0 is perfect hearing and 100 is 
 Initial setting simulates violinist's defficiency on left channel and old deafness on right channel.
 
 Settings can be found on lines __21__ and __22__.
+
 `left_ear_loss = [10, 20, 80, 50, 15, 10, 0, 0]`
+
 `right_ear_loss = [0, 0, 0, 20, 40, 60, 75, 100]`
