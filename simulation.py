@@ -11,6 +11,16 @@ from pylab import repeat, arange, cumsum, unwrap, arctan2, imag, real
 
 os.system("")
 
+"""SETUP VARIABLES"""
+input_song = 'test-config.mp3'
+gain = +0.0
+demo_mode = False
+
+# Ear loss is measured hearing threshold for frequencies specified in FILTER_CENTERS
+# Ear loss is given in a logarythmic scale, where 0 is perfect hearing and 100 is complete deaf
+left_ear_loss = [10, 60, 90, 50, 15, 10, 0, 0]
+right_ear_loss = [0, 0, 0, 20, 40, 60, 75, 100]
+
 class style():
     BLACK = '\033[30m'
     RED = '\033[31m'
@@ -27,7 +37,7 @@ def read(f, normalized=True):
     """MP3 to numpy array"""
     print(style.MAGENTA + 'Reading input audio:')
     a = pydub.AudioSegment.from_mp3(f)
-    a_bis = a.apply_gain(+0.0)
+    a_bis = a.apply_gain(gain)
     # print(a.max)
     print(style.YELLOW + 'A max:\t', style.WHITE, a_bis.max) #maximum representation: 32767
     print(style.YELLOW + 'dBFS:\t', style.WHITE, a_bis.dBFS, '\n')
@@ -94,7 +104,7 @@ def seconds(x_count, fs):
 def chunkz(source_array, chunk_size, chunk_overlap=0):
   return [source_array[i:i+chunk_size] for i in range(0, len(source_array), chunk_size - chunk_overlap)]
 
-sampling_frequency, song_data = read('test-config.mp3', normalized=True)
+sampling_frequency, song_data = read(input_song, normalized=True)
 nyquist_frequency = sampling_frequency / 2.0
 filter_length = 2073
 
@@ -112,10 +122,6 @@ print(style.YELLOW + 'Time block length: \t', style.RESET, time_window_crossfade
 print(style.YELLOW + 'Time block length: \t', style.RESET, int(time_window*1000), '  miliseconds')
 print(style.YELLOW + 'Time block length: \t', style.RESET, time_window_samples, ' samples')
 print(style.RESET)
-
-#* Ear loss are measured hearing threshold for frequencies specified in FILTER_CENTERS 
-left_ear_loss = [10, 20, 80, 50, 15, 10, 0, 0]
-right_ear_loss = [0, 0, 0, 20, 40, 60, 75, 100]
 
 #* Filter centers designate filter band
 filter_centers = [250, 500, 1000, 2000, 3000, 4000, 6000, 8000]
@@ -166,8 +172,7 @@ def plot_filters():
   plt.figure()
   plot_mfreqz(filter_band_8)
 plot_filters()
-plt.show()  # Todo: Call to demonstrate filters
-plt.close('all')
+plt.show() if demo_mode == True else plt.close('all') # Todo: Call to demonstrate filters
 
 #* Splitting song_data to separate channels
 
@@ -275,7 +280,7 @@ def filter_test():
   plt.xlabel('Time [sec]')
   plt.title('Sum of signals')
 filter_test() 
-plt.show() #Todo: Call to demonstrate filters' working
+plt.show() if demo_mode == True else plt.close('all') #Todo: Call to demonstrate filters' working
 plt.close('all')
 
 print(style.CYAN + 'Testing convolution...')
@@ -373,7 +378,7 @@ spectrum_extraction(temp_blck[4][block], 'band_5')
 spectrum_extraction(temp_blck[5][block], 'band_6')
 spectrum_extraction(temp_blck[6][block], 'band_7')
 spectrum_extraction(temp_blck[7][block], 'band_8')
-plt.show() #Todo: Call to demonstrate filtered chunk
+plt.show() if demo_mode == True else plt.close('all') #Todo: Call to demonstrate filtered chunk
 print(style.GREEN + 'Done.\n')
 
 
@@ -482,7 +487,7 @@ print(style.YELLOW + 'Demo 1\t', style.RESET)
 fade_block_edges_demo(np.ones(3528))
 print(style.YELLOW + 'Demo 2')
 fade_block_edges_demo(np.ones(2430))
-plt.show() #Todo: Call to demonstrate filters work
+plt.show() if demo_mode == True else plt.close('all') #Todo: Call to demonstrate filters work
 print(style.GREEN + 'Done.\n')
 
 print(style.CYAN + 'FFT Extraction && Thresholding...')
