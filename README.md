@@ -12,6 +12,42 @@ To start fiddling with this script, install dependencies. Try using this command
 
 `python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose pydub easing-functions pylab`
 
+## Getting ffmpeg set up
+
+You may use **libav or ffmpeg**.
+
+Mac (using [homebrew](http://brew.sh)):
+
+```bash
+# libav
+brew install libav --with-libvorbis --with-sdl --with-theora
+
+####    OR    #####
+
+# ffmpeg
+brew install ffmpeg --with-libvorbis --with-sdl2 --with-theora
+```
+
+Linux (using aptitude):
+
+```bash
+# libav
+apt-get install libav-tools libavcodec-extra
+
+####    OR    #####
+
+# ffmpeg
+apt-get install ffmpeg libavcodec-extra
+```
+
+Windows:
+
+1. Download and extract libav from [Windows binaries provided here](http://builds.libav.org/windows/).
+2. Add the libav `/bin` folder to your PATH envvar
+3. `pip install pydub`
+
+credit: [https://github.com/jiaaro/pydub#getting-ffmpeg-set-up]
+
 ## Settings
 From line __14__ to line __22__ there are initial variables which, for now, serve as a setup for algorithm.
 
@@ -40,5 +76,7 @@ Ear loss is given in a logarythmic scale, where 0 is perfect hearing and 100 is 
 Initial setting simulates violinist's defficiency on left channel and old deafness on right channel.
 
 Settings can be found on lines __21__ and __22__.
+
 `left_ear_loss = [10, 20, 80, 50, 15, 10, 0, 0]`
+
 `right_ear_loss = [0, 0, 0, 20, 40, 60, 75, 100]`
