@@ -14,7 +14,7 @@ os.system("")
 """SETUP VARIABLES"""
 input_song = 'test-config.mp3'
 gain = +0.0
-demo_mode = False
+demo_mode = True
 
 # Ear loss is measured hearing threshold for frequencies specified in FILTER_CENTERS
 # Ear loss is given in a logarythmic scale, where 0 is perfect hearing and 100 is complete deaf
@@ -337,7 +337,7 @@ print(style.GREEN + 'Overlapping OK.\n') if np.array_equal(temp_1, temp_2) else 
 
 
 #* Test block spectrum extraction
-print(style.CYAN + 'Test attempt to extract spectrum data from a chunk across all bands...')
+print(style.CYAN + 'Test attempt to extract spectrum data from a random chunk across all bands...')
 
 def spectrum_extraction(block, band):
   # Generate time in [ms] for time signal
@@ -364,20 +364,23 @@ def spectrum_extraction(block, band):
   plt.ylabel('Amplitude')
   plt.xlim(filter_limits[band][0], filter_limits[band][1])
   plt.ylim(0, 1)
+
+  plt.subplots_adjust(hspace=0.65)
+
   
   print(style.YELLOW + 'Band: ', style.RESET, band, style.YELLOW, '\tAmpl maximum: ', style.RESET, max(abs(block)))
   print(style.YELLOW + 'Band: ', style.RESET, band, style.YELLOW, '\tFreq maximum: ', style.RESET, max(temp_freq_norm))
 
-block = 580
+
 plt.close('all')
-spectrum_extraction(temp_blck[0][block], 'band_1')
-spectrum_extraction(temp_blck[1][block], 'band_2')
-spectrum_extraction(temp_blck[2][block], 'band_3')
-spectrum_extraction(temp_blck[3][block], 'band_4')
-spectrum_extraction(temp_blck[4][block], 'band_5')
-spectrum_extraction(temp_blck[5][block], 'band_6')
-spectrum_extraction(temp_blck[6][block], 'band_7')
-spectrum_extraction(temp_blck[7][block], 'band_8')
+spectrum_extraction(temp_blck[0][np.random.randint(0, len(temp_blck[0]))], 'band_1')
+spectrum_extraction(temp_blck[1][np.random.randint(0, len(temp_blck[0]))], 'band_2')
+spectrum_extraction(temp_blck[2][np.random.randint(0, len(temp_blck[0]))], 'band_3')
+spectrum_extraction(temp_blck[3][np.random.randint(0, len(temp_blck[0]))], 'band_4')
+spectrum_extraction(temp_blck[4][np.random.randint(0, len(temp_blck[0]))], 'band_5')
+spectrum_extraction(temp_blck[5][np.random.randint(0, len(temp_blck[0]))], 'band_6')
+spectrum_extraction(temp_blck[6][np.random.randint(0, len(temp_blck[0]))], 'band_7')
+spectrum_extraction(temp_blck[7][np.random.randint(0, len(temp_blck[0]))], 'band_8')
 plt.show() if demo_mode == True else plt.close('all') #Todo: Call to demonstrate filtered chunk
 print(style.GREEN + 'Done.\n')
 
